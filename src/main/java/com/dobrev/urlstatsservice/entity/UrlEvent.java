@@ -5,6 +5,7 @@ import lombok.Setter;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondarySortKey;
 
 @Getter
 @Setter
@@ -25,5 +26,15 @@ public class UrlEvent {
     @DynamoDbSecondaryPartitionKey(indexNames = "userIdIdx")
     public String getUserId() {
         return userId;
+    }
+
+    @DynamoDbSecondaryPartitionKey(indexNames = "hashEventTypeIdx")
+    public String getShortUrlHash() {
+        return shortUrlHash;
+    }
+
+    @DynamoDbSecondarySortKey(indexNames = {"userIdIdx", "hashEventTypeIdx"})
+    public String getEventType() {
+        return eventType;
     }
 }

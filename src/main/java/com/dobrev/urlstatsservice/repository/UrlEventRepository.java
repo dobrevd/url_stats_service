@@ -38,13 +38,33 @@ public class UrlEventRepository {
         return urlEventTable.putItem(event);
     }
 
-    public CompletableFuture<List<UrlEvent>> getByUserId(String userId) {
+    public CompletableFuture<List<UrlEvent>> findByUserIdAndEventType(String userId, String eventType) {
         List<UrlEvent> resultList = new ArrayList<>();
         CompletableFuture<List<UrlEvent>> resultFuture = new CompletableFuture<>();
 
         urlEventTable.index("userIdIdx")
-                .query(r -> r.queryConditional(QueryConditional.keyEqualTo(
-                        Key.builder().partitionValue(userId).build())))
+                .query(r -> r.queryConditional(
+                        QueryConditional.keyEqualTo(
+                                Key.builder()
+                                        .partitionValue(userId)
+                                        .sortValue(eventType)
+                                        .build())))
+                .subscribe(collectingSubscriber(resultList, resultFuture));
+
+        return resultFuture;
+    }
+
+    public CompletableFuture<List<UrlEvent>> findByShortUrlHashAndEventType(String hash, String eventType) {
+        List<UrlEvent> resultList = new ArrayList<>();
+        CompletableFuture<List<UrlEvent>> resultFuture = new CompletableFuture<>();
+
+        urlEventTable.index("hashEventTypeIdx")
+                .query(r -> r.queryConditional(
+                        QueryConditional.keyEqualTo(
+                                Key.builder()
+                                        .partitionValue(hash)
+                                        .sortValue(eventType)
+                                        .build())))
                 .subscribe(collectingSubscriber(resultList, resultFuture));
 
         return resultFuture;
