@@ -1,4 +1,4 @@
-package com.dobrev.urlstatsservice;
+package com.dobrev.urlstatsservice.dto;
 
 import lombok.Builder;
 

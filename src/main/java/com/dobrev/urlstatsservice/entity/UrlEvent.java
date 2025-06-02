@@ -1,15 +1,19 @@
 package com.dobrev.urlstatsservice.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondarySortKey;
 
-@Getter
-@Setter
 @DynamoDbBean
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UrlEvent {
     private String eventId;
     private String userId;
