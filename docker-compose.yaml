@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    environment:
+      - AWS_REGION=eu-central-1
+      - AWS_DYNAMODB_ENDPOINT_URL=http://dynamodb:8000
+    depends_on:
+      - dynamodb
+    ports:
+      - "8080:8080"
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: dynamodb
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data
+    volumes:
+      - ./dynamodb-data:/home/dynamodblocal/data
+    ports:
+      - "8000:8000"
