@@ -25,6 +25,7 @@ dependencies {
     implementation(platform("software.amazon.awssdk:bom:2.31.47"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
+    implementation("software.amazon.awssdk:sqs")
 
     compileOnly ("org.projectlombok:lombok")
     annotationProcessor ("org.projectlombok:lombok")
