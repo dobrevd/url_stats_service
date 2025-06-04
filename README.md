@@ -22,6 +22,16 @@ The application supports two Spring Boot profiles to handle different deployment
 
 This dual-profile setup allows smooth switching between local and cloud environments with minimal configuration changes, improving development efficiency and deployment reliability.
 
+### 📬 Event-Driven Messaging with AWS SNS and AWS SQS
+
+The `StatsService` processes URL-related events using an event-driven architecture:
+
+- An **SNS topic** (`url-events`) publishes messages whenever a URL event occurs.
+- These messages are delivered to a subscribed **SQS queue** (`url-events`), which acts as a buffer between the event source and the processing service.
+- A **dead-letter queue (DLQ)** (`url-events-dlq`) is attached to the main SQS queue. Messages that fail to be processed after 2 attempts are moved to the DLQ and retained for 8 days for debugging or reprocessing.
+- The **StatsService** consumes messages from the SQS queue and stores relevant data in **Amazon DynamoDB** for analytics and tracking.
+
+
 ## ✅ CI/CD Workflow (GitHub Actions)
 
 This GitHub Actions workflow automatically:
