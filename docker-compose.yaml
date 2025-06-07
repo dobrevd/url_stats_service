@@ -7,7 +7,7 @@ services:
     depends_on:
       - dynamodb
     ports:
-      - "8080:8080"
+      - "8083:8080"
 
   dynamodb:
     image: amazon/dynamodb-local
@@ -28,3 +28,12 @@ services:
     environment:
       - JAVA_OPTS=-Dconfig.file=/opt/elasticmq.conf
       - AWS_SQS_QUEUE_URLEVENT_URL=http://sqs:9324/queue/url-events
+
+  front_app:
+    image: url-shortener-angular-frontend:dev
+    container_name: url-shortener-frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
